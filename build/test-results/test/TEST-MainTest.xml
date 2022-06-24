@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="MainTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-06-24T19:35:58" hostname="MBP-Sergej" time="0.338">
+  <properties/>
+  <testcase name="testListToJson()" classname="MainTest" time="0.248"/>
+  <testcase name="testFileNotFound()" classname="MainTest" time="0.003"/>
+  <testcase name="testParseCSV()" classname="MainTest" time="0.026"/>
+  <testcase name="testParseXML()" classname="MainTest" time="0.057"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -13,7 +13,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,34 +23,35 @@ import java.util.List;
 
 
 public class Main {
-    public  static List<Employee> employees = new ArrayList<>();
+    public static List<Employee> employees = new ArrayList<>();
+    public static String[] columnMapping = { "id", "firstName", "lastName", "country", "age"};
+    public static String fileName = "data.csv";
+    public static String fileXMLName = "data.xml";
+    public static String outputJsonFileForCSV = "new_data_csv.json";
+    public static String outputJsonFileForXML = "new_data_xml.json";
+
     public static void main(String[] args) {
-        String[] columnMapping = { "id", "firstName", "lastName", "country", "age"};
-        String fileName = "data.csv";
-        String fileXMLName = "data.xml";
-        String outputJsovFileForCSV = "new_data_csv.json";
-        String outputJsovFileForXML = "new_data_xml.json";
         List<Employee> list = parseCSV(columnMapping, fileName);
         String json = listToJson(list);
-        writeString(json, outputJsovFileForCSV);
+        writeString(json, outputJsonFileForCSV);
         list = parseXML(fileXMLName);
         json = listToJson(list);
-        writeString(json, outputJsovFileForXML);
+        writeString(json, outputJsonFileForXML);
 
         System.out.println("For csv file:");
-        json = readString(outputJsovFileForCSV);
+        json = readString(outputJsonFileForCSV);
         List<Employee> employeeList = jsonToList(json);
         employeeList.forEach(System.out::println);
 
         System.out.println("\n" + "For XML file:");
-        json = readString(outputJsovFileForXML);
+        json = readString(outputJsonFileForXML);
         employeeList = jsonToList(json);
         employeeList.forEach(System.out::println);
 
 
 
     }
-    private static List<Employee> jsonToList (String json) {
+    public static List<Employee> jsonToList (String json) {
         JSONParser jsonParser = new JSONParser();
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
@@ -71,7 +71,7 @@ public class Main {
         }
         return null;
     }
-    private static String readString(String fileName) {
+    public static String readString(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))){
             String line;
             while ((line = reader.readLine()) != null) {
@@ -82,7 +82,7 @@ public class Main {
         }
         return null;
     }
-    private static List<Employee> parseCSV(String[] columnMapping, String fileName)  {
+    public static List<Employee> parseCSV(String[] columnMapping, String fileName)  {
         CSVParser csvParser = new CSVParserBuilder().withSeparator(',').build();
         try(CSVReader reader = new CSVReaderBuilder(new FileReader(fileName)).withCSVParser(csvParser).build()) {
             ColumnPositionMappingStrategy<Employee> strategy = new ColumnPositionMappingStrategy<>();
@@ -97,7 +97,7 @@ public class Main {
         }
         return null;
     }
-    private static String listToJson(List<Employee> list) {
+    public static String listToJson(List<Employee> list) {
         Type listType = new TypeToken<List<Employee>>() {}.getType();
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
@@ -110,7 +110,7 @@ public class Main {
             System.out.println(e.getMessage());
         }
     }
-    private static List<Employee> parseXML(String fileXMLName) {
+    public static List<Employee> parseXML(String fileXMLName) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
